@@ -21,8 +21,8 @@ MODEL:
   project_dim: 768
 
 DATA:
-  train_csv_path: ./data/QaTa-COV19-v2/prompt/train.csv
-  train_root_path: ./data/QaTa-COV19-v2/Train
+  train_csv_path: /home/sakir-w4-linux/Development/Thesis/ECCV/Codes/Datasets/Covid19/QaTa-COV19/QaTa-COV19-v2/Train Set/Train_text.csv
+  train_root_path: /home/sakir-w4-linux/Development/Thesis/ECCV/Codes/Datasets/Covid19/QaTa-COV19/QaTa-COV19-v2/Train Set
 
-  test_csv_path: ./data/QaTa-COV19-v2/prompt/test.csv
-  test_root_path: ./data/QaTa-COV19-v2/Test
+  test_csv_path: /home/sakir-w4-linux/Development/Thesis/ECCV/Codes/Datasets/Covid19/QaTa-COV19/QaTa-COV19-v2/Test Set/Test_text_for_Covid19.csv
+  test_root_path: /home/sakir-w4-linux/Development/Thesis/ECCV/Codes/Datasets/Covid19/QaTa-COV19/QaTa-COV19-v2/Test Set
