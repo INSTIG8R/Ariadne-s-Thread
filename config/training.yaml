@@ -1,8 +1,8 @@
 TRAIN:
-  train_batch_size: 32
+  train_batch_size: 4
   lr: 0.0003
 
-  valid_batch_size: 8
+  valid_batch_size: 4
 
   image_size: [224,224]
 
