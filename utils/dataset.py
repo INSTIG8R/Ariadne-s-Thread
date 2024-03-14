@@ -7,6 +7,15 @@ from monai.transforms import (AddChanneld, Compose, Lambdad, NormalizeIntensityd
 from torch.utils.data import DataLoader, Dataset
 from transformers import AutoTokenizer
 
+def clean_lists(file_list, other_list, folder_path):
+  """
+  This function takes two lists (file_list and other_list) and a folder path. 
+  It removes entries from both lists where the corresponding filename in file_list 
+  doesn't exist in the folder.
+  """
+  cleaned_indices = [i for i, filename in enumerate(file_list) if os.path.isfile(os.path.join(folder_path, filename))]
+  return [file_list[i] for i in cleaned_indices], [other_list[i] for i in cleaned_indices]
+
 class QaTa(Dataset):
 
     def __init__(self, csv_path=None, root_path=None, tokenizer=None, mode='train',image_size=[224,224]):
@@ -17,8 +26,14 @@ class QaTa(Dataset):
 
         with open(csv_path, 'r') as f:
             self.data = pd.read_csv(f)
-        self.image_list = list(self.data['Image'])
-        self.caption_list = list(self.data['Description'])
+        image_list = list(self.data['Image'])
+        caption_list = list(self.data['Description'])
+
+        folder_path = '/home/sakir-w4-linux/Development/Thesis/ECCV/Codes/Datasets/Covid19/QaTa-COV19 (1)/QaTa-COV19-v2/Test Set/Images'
+
+        self.image_list, self.caption_list = clean_lists(image_list, caption_list, folder_path)
+
+
 
         if mode == 'train':
             self.image_list = self.image_list[:int(0.8*len(self.image_list))]
@@ -42,8 +57,10 @@ class QaTa(Dataset):
 
         trans = self.transform(self.image_size)
 
-        image = os.path.join(self.root_path,'Images',self.image_list[idx].replace('mask_',''))
-        gt = os.path.join(self.root_path,'Ground-truths', self.image_list[idx])
+        image_list = self.image_list
+        
+        image = os.path.join(self.root_path,'Images',image_list[idx])
+        gt = os.path.join(self.root_path,'Ground-truths', 'mask_'+image_list[idx])
         caption = self.caption_list[idx]
 
         token_output = self.tokenizer.encode_plus(caption, padding='max_length',
